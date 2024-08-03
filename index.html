@@ -188,8 +188,8 @@
                     <h3>${product.name}</h3>
                     <p>Grande: $${product.grande}</p>
                     <p>Familiar: $${product.familiar}</p>
-                    <button onclick="window.addToCart(${index}, ${product.grande})">Añadir Grande</button> 
-                    <button onclick="window.addToCart(${index}, ${product.familiar})">Añadir Familiar</button>
+                    <p><button onclick="window.addToCart(${index}, ${product.grande})">Añadir Grande</button></p>
+                    <p><button onclick="window.addToCart(${index}, ${product.familiar})">Añadir Familiar</button></p>
                     <input type="number" id="quantity-${index}" value="1" min="1">
                 `;
                 return pizzaItem;
