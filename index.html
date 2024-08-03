@@ -3,9 +3,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizzas Amigo Paulie</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -13,6 +14,7 @@
             background-image: url('https://i.imgur.com/ALtaldZ.png');
             background-size: cover;
             background-position: center;
+            color: #333;
         }
 
         header {
@@ -20,11 +22,13 @@
             padding: 20px;
             background-color: #ff5733;
             color: white;
+            border-bottom: 4px solid #c70039;
         }
 
         h1 {
             margin: 0;
             font-size: 2.5em;
+            font-weight: 700;
         }
 
         p {
@@ -38,7 +42,9 @@
 
         h2 {
             text-align: center;
-            color: white;
+            color: #ff5733;
+            font-weight: 700;
+            margin: 20px 0;
         }
 
         .pizza-grid {
@@ -50,10 +56,17 @@
 
         .pizza-item {
             text-align: center;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pizza-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .pizza-item img {
@@ -64,19 +77,23 @@
         }
 
         .pizza-item h3 {
-            margin: 10px 0 5px 0;
+            margin: 10px 0;
+            font-size: 1.3em;
+            color: #333;
         }
 
         .pizza-item p {
             margin: 5px 0;
+            color: #555;
         }
 
         #cart {
             margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 15px;
+            border: 1px solid #ddd;
+            padding: 20px;
             background-color: white;
-            border-radius: 8px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         #cart-items {
@@ -84,7 +101,7 @@
         }
 
         #cart-total {
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 10px;
         }
 
@@ -96,6 +113,7 @@
             position: fixed;
             width: 100%;
             bottom: 0;
+            border-top: 4px solid #c70039;
         }
 
         #whatsapp-btn {
@@ -120,6 +138,12 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        #refresh-btn:hover {
+            background-color: #c70039;
         }
     </style>
 </head>
@@ -136,7 +160,8 @@
             <p>3. Para pago en línea: Seleccionar botón "Añadir al Carro".</p>
             <h3>Carrito</h3>
             <div id="cart-items"></div>
-            <p id="cart-total">Total: $0.00</p><br><p><button id="refresh-btn" onclick="location.reload();">Corregir Carrito</button></p><br>
+            <p id="cart-total">Total: $0.00</p><br>
+            <p><button id="refresh-btn" onclick="location.reload();">Corregir Carrito</button></p><br>
             <p>Enviar pedido por Whatsapp:</p><br>
             <p><a id="whatsapp-btn" href="#" target="_blank" style="display: none;">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"> 
@@ -144,7 +169,6 @@
             <br>
             <p>Pago con Paypal:</p><br>
             <div id="paypal-form"></div>
-            
         </div>
         <h2>***Nuestro Menú***</h2>
         <div id="menu" class="pizza-grid"></div>
