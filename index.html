@@ -1,0 +1,251 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzas Amigo Paulie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            background-image: url('https://i.imgur.com/ALtaldZ.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #ff5733;
+            color: white;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        p {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+        }
+
+        .pizza-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .pizza-item {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .pizza-item img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .pizza-item h3 {
+            margin: 10px 0 5px 0;
+        }
+
+        .pizza-item p {
+            margin: 5px 0;
+        }
+
+        #cart {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        #cart-items {
+            margin-bottom: 10px;
+        }
+
+        #cart-total {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ff5733;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        #whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: black;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        #whatsapp-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        #refresh-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Paulie's Pizza 🍕</h1>
+        <p>Las mejores en Playa del Carmen, Qroo.</p>
+    </header>
+    <main>
+        <div id="cart">
+            <p>Cómo ordenar:</p><br>
+            <p>1. Elegir sus productos.</p>
+            <p>2. Enviar Whatsapp para confirmar pedido con tienda.</p>
+            <p>3. Para pago en línea: Seleccionar botón "Añadir al Carro".</p>
+            <h3>Carrito</h3>
+            <div id="cart-items"></div>
+            <p id="cart-total">Total: $0.00</p><br><p><button id="refresh-btn" onclick="location.reload();">Corregir Carrito</button></p><br>
+            <p>Enviar pedido por Whatsapp:</p><br>
+            <a id="whatsapp-btn" href="#" target="_blank" style="display: none;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"> 
+            </a>
+            <br>
+            <p>Pago con Paypal:</p><br>
+            <div id="paypal-form"></div>
+            
+        </div>
+        <h2>***Nuestro Menú***</h2>
+        <div id="menu" class="pizza-grid"></div>
+    </main>
+    <footer>
+        Pizzas Amigo Paulie &copy; 2024
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = [
+                { name: "Pizza Margarita", img: "https://freerangestock.com/thumbnail/145352/whole-pizza-pie.jpg", grande: 220, familiar: 370 },
+                { name: "Pepperoni y Jalapeño", img: "https://freerangestock.com/thumbnail/87354/pepperoni-and-jalapeno-pizza-on-white-background.jpg", grande: 230, familiar: 380 },
+                { name: "Pizza con Tomates", img: "https://freerangestock.com/thumbnail/87336/close-up-of-pizza-with-tomatoes-in-background.jpg", grande: 210, familiar: 360 },
+                { name: "Pizza Clásica", img: "https://freerangestock.com/thumbnail/136746/close-up-of-pizza.jpg", grande: 240, familiar: 390 },
+                { name: "Pepperoni y Aceitunas", img: "https://freerangestock.com/thumbnail/68744/pepperoni-and-black-olive-pizza-on-a-white-plate.jpg", grande: 230, familiar: 380 },
+                { name: "Pizza Italiana", img: "https://freerangestock.com/thumbnail/136749/italian-pizza.jpg", grande: 220, familiar: 370 },
+                { name: "Pizza en Mesa", img: "https://freerangestock.com/thumbnail/87342/close-up-of-a-pizza-on-a-table.jpg", grande: 250, familiar: 400 },
+                { name: "Pizza Hawaiana", img: "https://freerangestock.com/thumbnail/145352/whole-pizza-pie.jpg", grande: 230, familiar: 380 },
+                { name: "Pizza Vegetariana", img: "https://freerangestock.com/thumbnail/87336/close-up-of-pizza-with-tomatoes-in-background.jpg", grande: 210, familiar: 360 },
+                { name: "Pizza BBQ Chicken", img: "https://freerangestock.com/thumbnail/136746/close-up-of-pizza.jpg", grande: 240, familiar: 390 },
+                { name: "Pizza Cuatro Quesos", img: "https://freerangestock.com/thumbnail/68744/pepperoni-and-black-olive-pizza-on-a-white-plate.jpg", grande: 220, familiar: 370 },
+                { name: "Pizza de Champiñones", img: "https://freerangestock.com/thumbnail/136749/italian-pizza.jpg", grande: 230, familiar: 380 },
+                { name: "Pizza de Salami", img: "https://freerangestock.com/thumbnail/87342/close-up-of-a-pizza-on-a-table.jpg", grande: 240, familiar: 390 },
+                { name: "Pizza de Anchoas", img: "https://freerangestock.com/thumbnail/145352/whole-pizza-pie.jpg", grande: 220, familiar: 370 },
+                { name: "Pizza de Espinacas", img: "https://freerangestock.com/thumbnail/87354/pepperoni-and-jalapeno-pizza-on-white-background.jpg", grande: 210, familiar: 360 },
+                { name: "Pizza de Pollo", img: "https://freerangestock.com/thumbnail/87336/close-up-of-pizza-with-tomatoes-in-background.jpg", grande: 230, familiar: 380 },
+                { name: "Pizza de Atún", img: "https://freerangestock.com/thumbnail/136746/close-up-of-pizza.jpg", grande: 240, familiar: 390 },
+                { name: "Pizza de Carne", img: "https://freerangestock.com/thumbnail/68744/pepperoni-and-black-olive-pizza-on-a-white-plate.jpg", grande: 220, familiar: 370 },
+                { name: "Pizza de Jamón Serrano", img: "https://freerangestock.com/thumbnail/136749/italian-pizza.jpg", grande: 230, familiar: 380 },
+                { name: "Pizza Mediterránea", img: "https://freerangestock.com/thumbnail/87342/close-up-of-a-pizza-on-a-table.jpg", grande: 240, familiar: 390 }
+            ];
+
+            const cart = [];
+            let total = 0;
+
+            function createProductElement(product, index) {
+                const pizzaItem = document.createElement('div');
+                pizzaItem.classList.add('pizza-item');
+                pizzaItem.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>Grande: $${product.grande}</p>
+                    <p>Familiar: $${product.familiar}</p>
+                    <button onclick="window.addToCart(${index}, ${product.grande})">Añadir Grande</button> 
+                    <button onclick="window.addToCart(${index}, ${product.familiar})">Añadir Familiar</button>
+                    <input type="number" id="quantity-${index}" value="1" min="1">
+                `;
+                return pizzaItem;
+            }
+
+            window.addToCart = function(index, price) {
+                const quantityInput = document.getElementById(`quantity-${index}`);
+                const quantity = parseInt(quantityInput.value);
+                const product = products[index];
+                cart.push({ name: product.name, price: price, quantity: quantity });
+                updateCart();
+            };
+
+            function updateCart() {
+                const cartItemsSection = document.getElementById('cart-items');
+                const cartTotal = document.getElementById('cart-total');
+                const paypalForm = document.getElementById('paypal-form');
+                const whatsappBtn = document.getElementById('whatsapp-btn');
+
+                cartItemsSection.innerHTML = '';
+                total = 0;
+                cart.forEach(item => {
+                    cartItemsSection.innerHTML += `<p>${item.name} - $${item.price} x ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</p>`;
+                    total += item.price * item.quantity;
+                });
+                cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+                updatePayPalForm();
+                updateWhatsAppLink();
+            }
+
+            function updatePayPalForm() {
+                const paypalForm = document.getElementById('paypal-form');
+                paypalForm.innerHTML = `
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                        <input type="hidden" name="cmd" value="_xclick" />
+                        <input type="hidden" name="business" value="gascagtz@gmail.com" />
+                        <input type="hidden" name="currency_code" value="MXN" />
+                        <input type="hidden" name="amount" value="${total.toFixed(2)}" />
+                        <input type="hidden" name="item_name" value="${cart.map(item => `${item.name} (${item.quantity})`).join(', ')}" />
+                        <input type="image" src="https://www.paypalobjects.com/es_XC/i/btn/btn_cart_SM.gif" border="0" name="submit" title="PayPal es una forma segura y fácil de pagar en línea." alt="Pagar con PayPal" />
+                    </form>
+                `;
+            }
+
+            function updateWhatsAppLink() {
+                const whatsappBtn = document.getElementById('whatsapp-btn');
+                const message = `Orden de Pizza:\n${cart.map(item => `${item.name} (${item.quantity}) - $${item.price} c/u`).join('\n')}\nTotal: $${total.toFixed(2)}`;
+                const encodedMessage = encodeURIComponent(message);
+                whatsappBtn.href = `https://wa.me/525533355687?text=${encodedMessage}`;
+                whatsappBtn.style.display = total > 0 ? 'inline-flex' : 'none';
+            }
+
+            products.forEach((product, index) => {
+                document.getElementById('menu').appendChild(createProductElement(product, index));
+            });
+        });
+    </script>
+</body>
+</html>
