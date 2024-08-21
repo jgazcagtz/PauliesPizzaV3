@@ -1,4 +1,3 @@
-
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -104,10 +103,12 @@
         }
 
         .pizza-item img {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            height: 100%;
             border-radius: 8px;
             object-fit: cover;
+            max-width: 250px;
+            max-height: 250px;
             transition: transform 0.3s ease;
         }
 
@@ -437,8 +438,8 @@
             }
 
             .pizza-item img {
-                width: 70px;
-                height: 70px;
+                width: 250px;
+                height: 250px;
             }
 
             .pizza-item h3 {
@@ -473,6 +474,10 @@
             <h3>🛒 Carrito</h3>
             <div id="cart-items"></div>
             <p id="cart-total">Total: $0.00</p>
+            <p>Dirección de Entrega:</p>
+            <input type="text" id="delivery-address" placeholder="Ingresa tu dirección aquí..." style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            <p>Notas:</p>
+            <textarea id="order-notes" placeholder="Agrega notas adicionales..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;"></textarea>
             <p>Pagar con PayPal:</p><br>
             <div id="paypal-form"></div>
             <p><a id="whatsapp-btn" href="#" target="_blank" style="display: none;">
@@ -489,7 +494,6 @@
             <h2>Nuestro Menú 🍕</h2>
         </div>
         <div id="menu" class="pizza-grid"></div>
-        <button onclick="toggleTheme()">Toggle Dark Mode</button>
     </main>
     <footer>
          Paulie's Pizza &copy; 2024
@@ -505,6 +509,14 @@
             <div class="modal-footer">
                 <button class="edit-btn" onclick="toggleModal()">Cerrar</button>
             </div>
+        </div>
+    </div>
+
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleProductModal()">&times;</span>
+            <div id="product-modal-content"></div>
+            <button class="choose-btn" onclick="addProductToCart()">Añadir al Carrito</button>
         </div>
     </div>
 
@@ -525,6 +537,7 @@
 
             const cart = [];
             let total = 0;
+            let selectedProduct = null;
 
             function createProductElement(product, index) {
                 const pizzaItem = document.createElement('div');
@@ -540,24 +553,40 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                    <p><button class="choose-btn" onclick="window.addToCart(${index})">Elegir</button></p>
+                    <p><button class="choose-btn" onclick="window.showProductModal(${index})">Elegir</button></p>
                 `;
                 return pizzaItem;
             }
 
-            window.addToCart = function(index) {
+            window.showProductModal = function(index) {
+                const product = products[index];
                 const quantitySelect = document.getElementById(`quantity-${index}`);
                 const quantity = parseInt(quantitySelect.value);
-                const product = products[index];
-                const existingProduct = cart.find(item => item.name === product.name);
+                selectedProduct = { ...product, quantity };
+
+                const modalContent = document.getElementById('product-modal-content');
+                modalContent.innerHTML = `
+                    <h3>${selectedProduct.name}</h3>
+                    <img src="${selectedProduct.img}" alt="${selectedProduct.name}" style="width: 100%; height: 100%; max-width: 250px; max-height: 250px; object-fit: cover;">
+                    <p>Precio: $${selectedProduct.price.toFixed(2)}</p>
+                    <p>Cantidad: ${selectedProduct.quantity}</p>
+                `;
+
+                toggleProductModal();
+            };
+
+            window.addProductToCart = function() {
+                const existingProduct = cart.find(item => item.name === selectedProduct.name);
 
                 if (existingProduct) {
-                    existingProduct.quantity += quantity;
+                    existingProduct.quantity += selectedProduct.quantity;
                 } else {
-                    cart.push({ name: product.name, price: product.price, quantity: quantity });
+                    cart.push({ name: selectedProduct.name, price: selectedProduct.price, quantity: selectedProduct.quantity });
                 }
-                alert(`Producto agregado al carrito: ${product.name} x ${quantity}`);
+
                 updateCart();
+                toggleProductModal();
+                alert(`Producto agregado al carrito: ${selectedProduct.name} x ${selectedProduct.quantity}`);
             };
 
             function updateCart() {
@@ -625,7 +654,11 @@
 
             function updateWhatsAppLink() {
                 const whatsappBtn = document.getElementById('whatsapp-btn');
-                const message = `Orden de Pizza:\n${cart.map(item => `${item.name} (${item.quantity}) - $${item.price} c/u`).join('\n')}\nTotal: $${total.toFixed(2)}`;
+                const selectedPaymentMethod = 'En línea'; // Assumed as default
+                const selectedDeliveryMethod = 'A Domicilio'; // Assumed as default
+                const deliveryAddress = document.getElementById('delivery-address').value || 'No especificada';
+                const orderNotes = document.getElementById('order-notes').value || 'Sin notas adicionales';
+                const message = `Orden de Pizza:\n${cart.map(item => `${item.name} (${item.quantity}) - $${item.price} c/u`).join('\n')}\nTotal: $${total.toFixed(2)}\nMétodo de pago: ${selectedPaymentMethod}\nMétodo de entrega: ${selectedDeliveryMethod}\nDirección de Entrega: ${deliveryAddress}\nNotas: ${orderNotes}`;
                 const encodedMessage = encodeURIComponent(message);
                 whatsappBtn.href = `https://wa.me/525533355687?text=${encodedMessage}`;
                 whatsappBtn.style.display = total > 0 ? 'inline-flex' : 'none';
@@ -651,15 +684,18 @@
             modal.style.display = modal.style.display === 'none' || modal.style.display === '' ? 'block' : 'none';
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('edit-modal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
+        function toggleProductModal() {
+            const modal = document.getElementById('product-modal');
+            modal.style.display = modal.style.display === 'none' || modal.style.display === '' ? 'block' : 'none';
         }
 
-        function toggleTheme() {
-            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        window.onclick = function(event) {
+            const modals = [document.getElementById('edit-modal'), document.getElementById('product-modal')];
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>
