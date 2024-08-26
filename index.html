@@ -5,30 +5,12 @@
     <title>Paulie's Pizza</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
     <style>
-        /* Keyframes for animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideInFromLeft {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes bounceIn {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
-        }
-
         body {
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             background-color: #f9f9f9;
-            background-image: url('https://i.imgur.com/ALtaldZ.png');
             background-size: cover;
             background-position: center;
             color: #333;
@@ -41,25 +23,27 @@
             background-color: #ff5733;
             color: white;
             border-bottom: 4px solid #c70039;
-            animation: slideInFromLeft 1s ease-out;
         }
 
         h1 {
             margin: 0;
             font-size: 2.5em;
             font-weight: 700;
-            animation: bounceIn 1s ease-out;
         }
 
-        p {
-            margin: 0;
-            font-size: 1.2em;
-            animation: fadeIn 1.5s ease-in-out;
+        .instructions {
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #ffe8e8;
+            border-radius: 8px;
+            color: #333;
+            max-width: 600px;
+            text-align: center;
         }
 
         main {
             padding: 20px;
-            animation: fadeIn 1.5s ease-in-out;
+            padding-bottom: 80px; /* Ensure space for footer */
         }
 
         h2 {
@@ -73,7 +57,6 @@
             width: fit-content;
             margin: 20px auto;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            animation: bounceIn 1s ease-out;
         }
 
         .pizza-grid {
@@ -81,7 +64,6 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             justify-content: center;
-            animation: fadeIn 1.5s ease-in-out;
         }
 
         .pizza-item {
@@ -94,12 +76,6 @@
             background-color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        .pizza-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .pizza-item img {
@@ -120,14 +96,6 @@
             margin: 10px 0;
             font-size: 1.5em;
             color: #333;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        .pizza-item p {
-            margin: 10px 0;
-            color: #777;
-            font-size: 0.9em;
-            animation: fadeIn 1.5s ease-in-out;
         }
 
         .choose-btn {
@@ -142,7 +110,7 @@
             transition: background-color 0.3s ease, transform 0.3s ease;
             text-decoration: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: bounceIn 1s ease-out;
+            margin-top: 10px;
         }
 
         .choose-btn:hover {
@@ -150,27 +118,6 @@
             color: #333;
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        select {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: white;
-            color: #333;
-            font-size: 0.9em;
-            font-family: 'Montserrat', sans-serif;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #c70039;
-            box-shadow: 0 0 5px rgba(255, 87, 51, 0.5);
         }
 
         #cart {
@@ -189,18 +136,10 @@
             display: none;
             overflow-y: auto;
             max-height: 80vh;
-            animation: slideInFromLeft 1s ease-out;
         }
 
         #cart h3 {
             margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        #cart-items p {
-            margin-bottom: 15px;
-            color: #555;
-            animation: fadeIn 1.5s ease-in-out;
         }
 
         #cart-total {
@@ -208,36 +147,53 @@
             margin-bottom: 15px;
             font-size: 1.2em;
             color: #333;
-            animation: fadeIn 1.5s ease-in-out;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        ul li {
-            margin-bottom: 10px;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #ff5733;
-            color: white;
-            position: fixed;
+        textarea, input[type="text"], select {
+            display: block;
             width: 100%;
-            bottom: 0;
-            border-top: 4px solid #c70039;
-            animation: fadeIn 1.5s ease-in-out;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            color: #333;
+            font-size: 0.9em;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            width: 48%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+
+        .radio-group input[type="radio"]:checked + label {
+            background-color: #c70039;
+            color: white;
         }
 
         #cart-btn {
             position: fixed;
-            bottom: 80px;
+            top: 20px;
             right: 20px;
             background-color: #c70039;
             color: white;
@@ -252,8 +208,6 @@
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1001;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            animation: bounceIn 1s ease-out;
         }
 
         #cart-btn:hover {
@@ -261,56 +215,6 @@
             transform: rotate(15deg) scale(1.1);
         }
 
-        .edit-btn, #refresh-btn {
-            padding: 10px 20px;
-            background-color: #c70039;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: bounceIn 1s ease-out;
-        }
-
-        .edit-btn:hover, #refresh-btn:hover {
-            background-color: #ff5733;
-            color: #333;
-            transform: translateY(-3px);
-        }
-
-        #whatsapp-btn img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-
-        #whatsapp-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            align-items: center;
-            justify-content: center;
-            animation: bounceIn 1s ease-out;
-        }
-
-        #whatsapp-btn:hover {
-            background-color: #22b358;
-            transform: translateY(-3px);
-        }
-
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -321,7 +225,6 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 1.5s ease-in-out;
         }
 
         .modal-content {
@@ -333,12 +236,6 @@
             max-width: 500px;
             border-radius: 12px;
             position: relative;
-            transition: transform 0.3s ease;
-            animation: slideInFromLeft 1s ease-out;
-        }
-
-        .modal-content:hover {
-            transform: scale(1.02);
         }
 
         .close {
@@ -346,7 +243,6 @@
             float: right;
             font-size: 24px;
             font-weight: bold;
-            transition: color 0.3s ease;
         }
 
         .close:hover,
@@ -356,46 +252,102 @@
             cursor: pointer;
         }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
+        #whatsapp-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        #whatsapp-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: none;
             align-items: center;
-            margin-bottom: 15px;
-            animation: fadeIn 1.5s ease-in-out;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 10px;
         }
 
-        .modal-header h2 {
-            margin: 0;
-            color: #333;
+        #whatsapp-btn:hover {
+            background-color: #22b358;
+            transform: translateY(-3px);
         }
 
-        .modal-body p {
-            margin: 15px 0;
+        #create-order-btn {
+            background-color: #007BFF;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9em;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            color: #555;
-            animation: fadeIn 1.5s ease-in-out;
+            justify-content: center;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
         }
 
-        .quantity-btn {
+        #create-order-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        #make-order-btn {
+            background-color: #007BFF;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        #make-order-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        .edit-btn, #refresh-btn {
+            padding: 8px 16px;
             background-color: #c70039;
             color: white;
             border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
-            margin: 0 5px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            animation: bounceIn 1s ease-out;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+            margin-bottom: 10px;
         }
 
-        .quantity-btn:hover {
+        .edit-btn:hover, #refresh-btn:hover {
             background-color: #ff5733;
             color: #333;
-            transform: translateY(-5px) scale(1.1);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ff5733;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 4px solid #c70039;
+            z-index: 100;
         }
 
         @media (max-width: 768px) {
@@ -406,10 +358,6 @@
 
             h1 {
                 font-size: 2em;
-            }
-
-            p {
-                font-size: 0.9em;
             }
 
             .choose-btn {
@@ -431,10 +379,6 @@
 
             h1 {
                 font-size: 1.5em;
-            }
-
-            p {
-                font-size: 0.8em;
             }
 
             .pizza-item img {
@@ -467,26 +411,48 @@
     <header>
         <img src="https://i.imgur.com/ALtaldZ.png" alt="Paulie's Pizza Logo" style="width: 400px; height: 400px; object-fit: cover;">
         <h1>Las mejores Pizzas en Playa del Carmen, Qroo.</h1>
-        <p></p>
     </header>
+
+    <div class="instructions">
+        <p><strong>Haz un pedido en 3 pasos:</strong></p>
+        
+        <p>1. Ingresa tu dirección de entrega y elige el método de pago.</p>
+       <p>2. Haz clic en "Hacer pedido" para enviar tu orden.</p>
+        <p>3. Confirma tu pedido por WhatsApp para reegistrar tu número.</p>
+    </div>
+
     <main>
         <div id="cart">
             <h3>🛒 Carrito</h3>
             <div id="cart-items"></div>
             <p id="cart-total">Total: $0.00</p>
             <p>Dirección de Entrega:</p>
-            <input type="text" id="delivery-address" placeholder="Ingresa tu dirección aquí..." style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            <input type="text" id="delivery-address" placeholder="Ingresa tu dirección aquí...">
             <p>Notas:</p>
-            <textarea id="order-notes" placeholder="Agrega notas adicionales..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ddd;"></textarea>
-            <p>Pagar con PayPal:</p><br>
+            <textarea id="order-notes" placeholder="Agrega notas adicionales..."></textarea>
+            <p>Método de Entrega:</p>
+            <div class="radio-group">
+                <input type="radio" id="domicilio" name="delivery-method" value="A Domicilio" checked>
+                <label for="domicilio">A Domicilio</label>
+                <input type="radio" id="sucursal" name="delivery-method" value="Recoger en Sucursal">
+                <label for="sucursal">Recoger en Sucursal</label>
+            </div>
+            <p>Método de Pago:</p>
+            <div class="radio-group">
+                <input type="radio" id="online" name="payment-method" value="En línea" checked>
+                <label for="online">En línea</label>
+                <input type="radio" id="efectivo" name="payment-method" value="Efectivo">
+                <label for="efectivo">Efectivo</label>
+            </div>
+            <p>Pagar con PayPal:</p>
             <div id="paypal-form"></div>
-            <p><a id="whatsapp-btn" href="#" target="_blank" style="display: none;">
+            <button id="make-order-btn" onclick="uploadOrder()">Enviar pedido 🍕</button>
+            <p><a id="whatsapp-btn" href="#" target="_blank">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"> 
-                Confirmar orden por Whatsapp
+                Confirmar orden
               </a></p>
-            <br>
             <button class="edit-btn" onclick="toggleModal()">Editar Carrito</button>
-            <button id="refresh-btn" onclick="clearCart()">Borrar Carrito</button>
+            <button id="refresh-btn" onclick="refreshCart()">Iniciar Nuevo Pedido</button>
         </div>
         <button id="cart-btn" onclick="toggleCart()">🛒</button>
         
@@ -495,6 +461,7 @@
         </div>
         <div id="menu" class="pizza-grid"></div>
     </main>
+    
     <footer>
          Paulie's Pizza &copy; 2024
     </footer>
@@ -521,158 +488,79 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const products = [
-                { name: "Pizza Margarita", img: "https://freerangestock.com/thumbnail/145352/whole-pizza-pie.jpg", price: 220 },
-                { name: "Pepperoni y Jalapeño", img: "https://freerangestock.com/thumbnail/87354/pepperoni-and-jalapeno-pizza-on-white-background.jpg", price: 230 },
-                { name: "Pizza con Tomates", img: "https://freerangestock.com/thumbnail/87336/close-up-of-pizza-with-tomatoes-in-background.jpg", price: 210 },
-                { name: "Pizza Clásica", img: "https://freerangestock.com/thumbnail/136746/close-up-of-pizza.jpg", price: 240 },
-                { name: "Pepperoni y Aceitunas", img: "https://freerangestock.com/thumbnail/68744/pepperoni-and-black-olive-pizza-on-a-white-plate.jpg", price: 230 },
-                { name: "Pizza Italiana", img: "https://freerangestock.com/thumbnail/136749/italian-pizza.jpg", price: 220 },
-                { name: "Pizza Hawaiana", img: "https://freerangestock.com/thumbnail/145352/whole-pizza-pie.jpg", price: 230 },
-                { name: "Pizza Vegetariana", img: "https://freerangestock.com/thumbnail/87336/close-up-of-pizza-with-tomatoes-in-background.jpg", price: 210 },
-                { name: "Pizza BBQ Chicken", img: "https://freerangestock.com/thumbnail/136746/close-up-of-pizza.jpg", price: 240 },
-                { name: "Pizza Cuatro Quesos", img: "https://freerangestock.com/thumbnail/68744/pepperoni-and-black-olive-pizza-on-a-white-plate.jpg", price: 220 }
-            ];
+        let total = 0;
+        let orderNumber = null;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let selectedProduct = null;
 
-            const cart = [];
-            let total = 0;
-            let selectedProduct = null;
+        const products = [
+            { name: "Pizza Margarita", img: "https://freerangestock.com/thumbnail/145352/whole-pizza-pie.jpg", price: 220 },
+            { name: "Pepperoni y Jalapeño", img: "https://i.imgur.com/m9SZ5JQ.png", price: 230 },
+            { name: "Pizza con Tomates", img: "https://freerangestock.com/thumbnail/87336/close-up-of-pizza-with-tomatoes-in-background.jpg", price: 210 },
+            { name: "Pizza Clásica", img: "https://freerangestock.com/thumbnail/136746/close-up-of-pizza.jpg", price: 240 },
+            { name: "Pepperoni y Aceitunas", img: "https://freerangestock.com/thumbnail/68744/pepperoni-and-black-olive-pizza-on-a-white-plate.jpg", price: 230 },
+            { name: "Pizza Italiana", img: "https://freerangestock.com/thumbnail/136749/italian-pizza.jpg", price: 220 },
+            { name: "Pizza Hawaiana", img: "https://freerangestock.com/thumbnail/145352/whole-pizza-pie.jpg", price: 230 },
+            { name: "Pizza Vegetariana", img: "https://freerangestock.com/thumbnail/87336/close-up-of-pizza-with-tomatoes-in-background.jpg", price: 210 },
+            { name: "Pizza BBQ Chicken", img: "https://freerangestock.com/thumbnail/136746/close-up-of-pizza.jpg", price: 240 },
+            { name: "Pizza Cuatro Quesos", img: "https://freerangestock.com/thumbnail/68744/pepperoni-and-black-olive-pizza-on-a-white-plate.jpg", price: 220 }
+        ];
 
-            function createProductElement(product, index) {
-                const pizzaItem = document.createElement('div');
-                pizzaItem.classList.add('pizza-item');
-                pizzaItem.innerHTML = `
-                    <img src="${product.img}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p>$${product.price}</p>
-                    <select id="quantity-${index}">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <p><button class="choose-btn" onclick="window.showProductModal(${index})">Elegir</button></p>
-                `;
-                return pizzaItem;
-            }
+        function updateWhatsAppLink() {
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+            const selectedDeliveryMethod = document.querySelector('input[name="delivery-method"]:checked').value;
+            const deliveryAddress = document.getElementById('delivery-address').value || 'No especificada';
+            const orderNotes = document.getElementById('order-notes').value || 'Sin notas adicionales';
+            const message = `Número de Orden: ${orderNumber}\nOrden de Pizza:\n${cart.map(item => `${item.name} (${item.quantity}) - $${item.price} c/u`).join('\n')}\nTotal: $${total.toFixed(2)}\nMétodo de pago: ${selectedPaymentMethod}\nMétodo de entrega: ${selectedDeliveryMethod}\nDirección de Entrega: ${deliveryAddress}\nNotas: ${orderNotes}`;
+            const encodedMessage = encodeURIComponent(message);
+            whatsappBtn.href = `https://wa.me/525533355687?text=${encodedMessage}`;
+            whatsappBtn.style.display = total > 0 ? 'inline-flex' : 'none';
+        }
 
-            window.showProductModal = function(index) {
-                const product = products[index];
-                const quantitySelect = document.getElementById(`quantity-${index}`);
-                const quantity = parseInt(quantitySelect.value);
-                selectedProduct = { ...product, quantity };
+        function updateCart() {
+            const cartItemsSection = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const paypalForm = document.getElementById('paypal-form');
+            const editCartItems = document.getElementById('edit-cart-items');
 
-                const modalContent = document.getElementById('product-modal-content');
-                modalContent.innerHTML = `
-                    <h3>${selectedProduct.name}</h3>
-                    <img src="${selectedProduct.img}" alt="${selectedProduct.name}" style="width: 100%; height: 100%; max-width: 250px; max-height: 250px; object-fit: cover;">
-                    <p>Precio: $${selectedProduct.price.toFixed(2)}</p>
-                    <p>Cantidad: ${selectedProduct.quantity}</p>
-                `;
+            cartItemsSection.innerHTML = '';
+            editCartItems.innerHTML = '';
+            total = 0;
 
-                toggleProductModal();
-            };
-
-            window.addProductToCart = function() {
-                const existingProduct = cart.find(item => item.name === selectedProduct.name);
-
-                if (existingProduct) {
-                    existingProduct.quantity += selectedProduct.quantity;
-                } else {
-                    cart.push({ name: selectedProduct.name, price: selectedProduct.price, quantity: selectedProduct.quantity });
-                }
-
-                updateCart();
-                toggleProductModal();
-                alert(`Producto agregado al carrito: ${selectedProduct.name} x ${selectedProduct.quantity}`);
-            };
-
-            function updateCart() {
-                const cartItemsSection = document.getElementById('cart-items');
-                const cartTotal = document.getElementById('cart-total');
-                const paypalForm = document.getElementById('paypal-form');
-                const whatsappBtn = document.getElementById('whatsapp-btn');
-                const editCartItems = document.getElementById('edit-cart-items');
-
-                cartItemsSection.innerHTML = '';
-                editCartItems.innerHTML = '';
-                total = 0;
-
-                cart.forEach((item, index) => {
-                    cartItemsSection.innerHTML += `<p>${item.name} - $${item.price} x ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</p>`;
-                    editCartItems.innerHTML += `
-                        <p>
-                            ${item.name} - 
-                            <button class="quantity-btn" onclick="window.decreaseQuantity(${index})">-</button>
-                            ${item.quantity}
-                            <button class="quantity-btn" onclick="window.increaseQuantity(${index})">+</button>
-                            = $${(item.price * item.quantity).toFixed(2)}
-                            <button onclick="window.removeCartItem(${index})">Eliminar</button>
-                        </p>`;
-                    total += item.price * item.quantity;
-                });
-
-                cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-                updatePayPalForm();
-                updateWhatsAppLink();
-            }
-
-            window.increaseQuantity = function(index) {
-                cart[index].quantity += 1;
-                updateCart();
-            };
-
-            window.decreaseQuantity = function(index) {
-                if (cart[index].quantity > 1) {
-                    cart[index].quantity -= 1;
-                } else {
-                    window.removeCartItem(index);
-                }
-                updateCart();
-            };
-
-            window.removeCartItem = function(index) {
-                cart.splice(index, 1);
-                updateCart();
-            };
-
-            function updatePayPalForm() {
-                const paypalForm = document.getElementById('paypal-form');
-                paypalForm.innerHTML = `
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                        <input type="hidden" name="cmd" value="_xclick" />
-                        <input type="hidden" name="business" value="gascagtz@gmail.com" />
-                        <input type="hidden" name="currency_code" value="MXN" />
-                        <input type="hidden" name="amount" value="${total.toFixed(2)}" />
-                        <input type="hidden" name="item_name" value="${cart.map(item => `${item.name} (${item.quantity})`).join(', ')}" />
-                        <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/silver-pill-paypal-44px.png" border="0" name="submit" title="Pay with PayPal" alt="PayPal - The safer, easier way to pay online!" />
-                    </form>
-                `;
-            }
-
-            function updateWhatsAppLink() {
-                const whatsappBtn = document.getElementById('whatsapp-btn');
-                const selectedPaymentMethod = 'En línea'; // Assumed as default
-                const selectedDeliveryMethod = 'A Domicilio'; // Assumed as default
-                const deliveryAddress = document.getElementById('delivery-address').value || 'No especificada';
-                const orderNotes = document.getElementById('order-notes').value || 'Sin notas adicionales';
-                const message = `Orden de Pizza:\n${cart.map(item => `${item.name} (${item.quantity}) - $${item.price} c/u`).join('\n')}\nTotal: $${total.toFixed(2)}\nMétodo de pago: ${selectedPaymentMethod}\nMétodo de entrega: ${selectedDeliveryMethod}\nDirección de Entrega: ${deliveryAddress}\nNotas: ${orderNotes}`;
-                const encodedMessage = encodeURIComponent(message);
-                whatsappBtn.href = `https://wa.me/525533355687?text=${encodedMessage}`;
-                whatsappBtn.style.display = total > 0 ? 'inline-flex' : 'none';
-            }
-
-            window.clearCart = function() {
-                cart.length = 0;
-                updateCart();
-            };
-
-            products.forEach((product, index) => {
-                document.getElementById('menu').appendChild(createProductElement(product, index));
+            cart.forEach((item, index) => {
+                cartItemsSection.innerHTML += `<p>${item.name} - $${item.price} x ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</p>`;
+                editCartItems.innerHTML += `
+                    <p>
+                        ${item.name} - 
+                        <button class="quantity-btn" onclick="window.decreaseQuantity(${index})">-</button>
+                        ${item.quantity}
+                        <button class="quantity-btn" onclick="window.increaseQuantity(${index})">+</button>
+                        = $${(item.price * item.quantity).toFixed(2)}
+                        <button onclick="window.removeCartItem(${index})">Eliminar</button>
+                    </p>`;
+                total += item.price * item.quantity;
             });
-        });
+
+            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updatePayPalForm();
+            updateWhatsAppLink();
+        }
+
+        function updatePayPalForm() {
+            const paypalForm = document.getElementById('paypal-form');
+            paypalForm.innerHTML = `
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_xclick" />
+                    <input type="hidden" name="business" value="gascagtz@gmail.com" />
+                    <input type="hidden" name="currency_code" value="MXN" />
+                    <input type="hidden" name="amount" value="${total.toFixed(2)}" />
+                    <input type="hidden" name="item_name" value="${cart.map(item => `${item.name} (${item.quantity})`).join(', ')}" />
+                    <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/silver-pill-paypal-44px.png" border="0" name="submit" title="Pay with PayPal" alt="PayPal - The safer, easier way to pay online!" />
+                </form>
+            `;
+        }
 
         function toggleCart() {
             const cart = document.getElementById('cart');
@@ -696,6 +584,134 @@
                     modal.style.display = 'none';
                 }
             });
+        }
+
+        function uploadOrder() {
+            if (!orderNumber) {
+                orderNumber = Math.floor(Math.random() * 1000000) + 1;
+            }
+
+            const deliveryAddress = document.getElementById('delivery-address').value || 'No especificada';
+            const orderNotes = document.getElementById('order-notes').value || 'Sin notas adicionales';
+            const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+            const selectedDeliveryMethod = document.querySelector('input[name="delivery-method"]:checked').value;
+
+            const orderData = {
+                timestamp: new Date().toLocaleString(),
+                orderNumber: orderNumber,
+                deliveryAddress: deliveryAddress,
+                orderNotes: orderNotes,
+                paymentMethod: selectedPaymentMethod,
+                deliveryMethod: selectedDeliveryMethod,
+                cart: JSON.stringify(cart),
+                total: total.toFixed(2)
+            };
+
+            updateWhatsAppLink(); // Ensure WhatsApp link is updated before sending the order
+
+            fetch('https://script.google.com/macros/s/AKfycbzv7cbIseNQWCoc7N6-DhLz7VIAhHCRLUtAqZXJDiQYHhjtmJEkPQlxvWkEcDzmJJ83yA/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(response => {
+                alert('Pedido enviado correctamente.');
+                document.getElementById('whatsapp-btn').style.display = 'inline-flex';  // Ensure WhatsApp button remains visible
+            })
+            .catch(error => {
+                console.error('Error al enviar el pedido:', error);
+            });
+        }
+
+        window.clearCart = function() {
+            cart.length = 0;
+            updateCart();
+        };
+
+        window.refreshCart = function() {
+            clearCart();
+            localStorage.removeItem('cart');
+            orderNumber = null;
+            document.getElementById('whatsapp-btn').style.display = 'none';
+        };
+
+        window.increaseQuantity = function(index) {
+            cart[index].quantity += 1;
+            updateCart();
+        };
+
+        window.decreaseQuantity = function(index) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+            } else {
+                window.removeCartItem(index);
+            }
+            updateCart();
+        };
+
+        window.removeCartItem = function(index) {
+            cart.splice(index, 1);
+            updateCart();
+        };
+
+        window.addProductToCart = function() {
+            const existingProduct = cart.find(item => item.name === selectedProduct.name);
+
+            if (existingProduct) {
+                existingProduct.quantity += selectedProduct.quantity;
+            } else {
+                cart.push({ name: selectedProduct.name, price: selectedProduct.price, quantity: selectedProduct.quantity });
+            }
+
+            updateCart();
+            toggleProductModal();
+            alert(`Producto agregado al carrito: ${selectedProduct.name} x ${selectedProduct.quantity}`);
+        };
+
+        window.showProductModal = function(index) {
+            const product = products[index];
+            const quantitySelect = document.getElementById(`quantity-${index}`);
+            const quantity = parseInt(quantitySelect.value);
+            selectedProduct = { ...product, quantity };
+
+            const modalContent = document.getElementById('product-modal-content');
+            modalContent.innerHTML = `
+                <h3>${selectedProduct.name}</h3>
+                <img src="${selectedProduct.img}" alt="${selectedProduct.name}" style="width: 100%; height: 100%; max-width: 250px; max-height: 250px; object-fit: cover;">
+                <p>Precio: $${selectedProduct.price.toFixed(2)}</p>
+                <p>Cantidad: ${selectedProduct.quantity}</p>
+            `;
+
+            toggleProductModal();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            products.forEach((product, index) => {
+                document.getElementById('menu').appendChild(createProductElement(product, index));
+            });
+            updateCart(); // Ensure cart is updated on page load
+        });
+
+        function createProductElement(product, index) {
+            const pizzaItem = document.createElement('div');
+            pizzaItem.classList.add('pizza-item');
+            pizzaItem.innerHTML = `
+                <img src="${product.img}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>$${product.price}</p>
+                <select id="quantity-${index}">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <p><button class="choose-btn" onclick="window.showProductModal(${index})">Elegir</button></p>
+            `;
+            return pizzaItem;
         }
     </script>
 </body>
